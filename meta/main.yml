@@ -1,1 +1,13 @@
 ---
+
+galaxy_info:
+  role_name: ansible_role_asterisk
+  namespace: mikinhas
+  author: Michael MACHADO
+  description: Base role
+  license: "license (BSD, MIT)"
+  min_ansible_version: "2.16"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - noble
