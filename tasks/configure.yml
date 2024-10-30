@@ -1,0 +1,19 @@
+- name: Configure asterisk.conf
+  become: true
+  ansible.builtin.template:
+    src: asterisk.conf.j2
+    dest: /etc/asterisk/asterisk.conf
+    owner: asterisk
+    group: asterisk
+    mode: "u=rw,g=r"
+  notify: Restart asterisk
+
+- name: Configure pjsip
+  become: true
+  ansible.builtin.template:
+    src: pjsip.conf.j2
+    dest: /etc/asterisk/pjsip.conf
+    owner: asterisk
+    group: asterisk
+    mode: "u=rw,g=r"
+  notify: Restart asterisk

@@ -1,0 +1,6 @@
+---
+- name: Install asterisk
+  become: true
+  ansible.builtin.apt:
+    name: asterisk
+    update_cache: true
