@@ -1,2 +1,6 @@
 ---
-ansible_role_asterisk_version: 20.4.0
+asterisk_pjsip_sections:
+  - name: 10
+    context: internal
+    username: molecule_test
+    password: molecule_test

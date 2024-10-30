@@ -1,5 +1,6 @@
 ---
-- name: Restart Asterisk
+- name: Restart asterisk
+  become: true
   ansible.builtin.systemd:
     name: asterisk
     state: restarted

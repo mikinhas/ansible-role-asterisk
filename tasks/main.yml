@@ -1,45 +1,12 @@
 ---
-- name: Install prerequisite packages
-  ansible.builtin.apt:
-    name: "{{ item }}"
-    state: present
-    update_cache: true
-  loop:
-    - build-essential
-    - curl
-    - openssl
-    - libedit-dev
-    - uuid-dev
-    - libjansson-dev
-    - libxml2-dev
-    - libsqlite3-dev
+- name: Install asterisk
+  ansible.builtin.include_tasks:
+    file: install.yml
+  tags:
+    - install_asterisk
 
-- name: Download Asterisk archive unarchive
-  ansible.builtin.unarchive:
-    src: "https://downloads.asterisk.org/pub/telephony/asterisk/asterisk-{{ ansible_role_asterisk_version }}.tar.gz"
-    dest: /opt/
-    remote_src: true
-
-- name: Configure Asterisk with sources
-  ansible.builtin.command: ./configure
-  args:
-    chdir: /opt/asterisk-{{ ansible_role_asterisk_version }}/
-
-- name: Make Asterisk
-  community.general.make:
-    chdir: /opt/asterisk-{{ ansible_role_asterisk_version }}/
-
-- name: Make install Asterisk
-  community.general.make:
-    chdir: /opt/asterisk-{{ ansible_role_asterisk_version }}/
-    target: install
-
-- name: Make samples Asterisk
-  community.general.make:
-    chdir: /opt/asterisk-{{ ansible_role_asterisk_version }}/
-    target: samples
-
-- name: Make config Asterisk
-  community.general.make:
-    chdir: /opt/asterisk-{{ ansible_role_asterisk_version }}/
-    target: config
+- name: Configure asterisk
+  ansible.builtin.import_tasks:
+    file: configure.yml
+  tags:
+    - configure_asterisk

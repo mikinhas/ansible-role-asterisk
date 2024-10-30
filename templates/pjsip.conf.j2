@@ -1,0 +1,24 @@
+[transport-udp]
+type=transport
+protocol=udp
+bind=0.0.0.0
+
+{% for section in asterisk_pjsip_sections %}
+[{{ section.name }}]
+type=endpoint
+context={{ section.context }}
+disallow=all
+allow=ulaw
+auth={{ section.name }}
+aors={{ section.name }}
+
+[{{ section.name }}]
+type=auth
+auth_type=userpass
+password={{ section.password }}
+username={{ section.username }}
+
+[{{ section.name }}]
+type=aor
+max_contacts=1
+{% endfor%}
