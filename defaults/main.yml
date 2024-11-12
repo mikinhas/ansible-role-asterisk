@@ -2,5 +2,27 @@
 asterisk_pjsip_sections:
   - name: 10
     context: internal
-    username: molecule_test
-    password: molecule_test
+    username: test
+    password: test
+  - name: 20
+    context: internal
+    username: username
+    password: password
+
+asterisk_extensions:
+  - name: internal
+    exten:
+      - "_XX,0,Dial(SIP/${EXTEN},20,tT)"
+      - "_XX,1,VoiceMail(10@internal)"
+      - "_XX,2,HangUp()"
+      - "_XX,3,VoiceMail(10@internal,su)"
+  - name: from-external
+    exten:
+      - s,1,GotoIfTime(00:00-23:59,mon-sun,*,*,/usr/share/zoneinfo/Europe/Paris?open,s,1)
+
+asterisk_voicemail:
+  - name: internal
+    voicemail:
+      - userid: 10
+        password: ""
+        mail: michael@machado.re

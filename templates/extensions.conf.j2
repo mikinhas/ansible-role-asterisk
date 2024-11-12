@@ -1,0 +1,6 @@
+{% for extension in asterisk_extensions %}
+[{{ extension.name }}]
+{% for exten in extension.exten %}
+exten => {{ exten }}
+{% endfor %}
+{% endfor %}
