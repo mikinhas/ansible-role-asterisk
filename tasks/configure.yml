@@ -17,3 +17,23 @@
     group: asterisk
     mode: "u=rw,g=r"
   notify: Restart asterisk
+
+- name: Configure extensions
+  become: true
+  ansible.builtin.template:
+    src: extensions.conf.j2
+    dest: /etc/asterisk/extensions.conf
+    owner: asterisk
+    group: asterisk
+    mode: "u=rw,g=r"
+  notify: Restart asterisk
+
+- name: Configure voicemail
+  become: true
+  ansible.builtin.template:
+    src: voicemail.conf.j2
+    dest: /etc/asterisk/voicemail.conf
+    owner: asterisk
+    group: asterisk
+    mode: "u=rw,g=r"
+  notify: Restart asterisk
