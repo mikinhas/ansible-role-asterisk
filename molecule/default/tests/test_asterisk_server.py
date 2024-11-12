@@ -1,6 +1,7 @@
 
 import os
-import testinfra.utils.ansible_runner
+
+testinfra_hosts = ["asterisk-server-noble"]
 
 def test_asterisk_is_installed(host):
     asterisk = host.package("asterisk")
