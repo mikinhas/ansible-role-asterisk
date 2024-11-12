@@ -1,7 +1,7 @@
-[transport-udp]
+[{{ asterisk_transport_pjsip_name | default('transport-udp') }}]
 type=transport
-protocol=udp
-bind=0.0.0.0
+protocol={{ asterisk_transport_pjsip_protocol | default('udp') }}
+bind={{ asterisk_transport_pjsip_bind_addres | default('0.0.0.0') }}
 
 {% for section in asterisk_pjsip_sections %}
 [{{ section.name }}]
