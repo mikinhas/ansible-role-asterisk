@@ -3,4 +3,5 @@
   become: true
   ansible.builtin.apt:
     name: asterisk
+    state: present
     update_cache: true
