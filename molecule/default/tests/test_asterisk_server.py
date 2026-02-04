@@ -20,6 +20,7 @@ def test_asterisk_running_and_enabled(host):
     "/etc/asterisk/pjsip.conf",
     "/etc/asterisk/extensions.conf",
     "/etc/asterisk/voicemail.conf",
+    "/etc/asterisk/musiconhold.conf",
 ])
 def test_asterisk_config_files_exist(host, config_file):
     """Test that asterisk configuration files exist with correct permissions."""

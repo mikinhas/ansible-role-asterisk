@@ -13,5 +13,33 @@
     - { name: pjsip, src: pjsip.conf.j2, dest: pjsip.conf, handler: Reload asterisk }
     - { name: extensions, src: extensions.conf.j2, dest: extensions.conf, handler: Reload asterisk }
     - { name: voicemail, src: voicemail.conf.j2, dest: voicemail.conf, handler: Reload asterisk }
+    - { name: musiconhold, src: musiconhold.conf.j2, dest: musiconhold.conf, handler: Reload asterisk }
   loop_control:
     label: "{{ item.name }}"
+
+- name: Create music on hold directories
+  become: true
+  ansible.builtin.file:
+    path: "{{ item.directory }}"
+    state: directory
+    owner: asterisk
+    group: asterisk
+    mode: "0755"
+  loop: "{{ asterisk_musiconhold | default([]) }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: asterisk_musiconhold is defined
+
+- name: Copy music on hold files
+  become: true
+  ansible.builtin.copy:
+    src: "{{ item.1 }}"
+    dest: "{{ item.0.directory }}/"
+    owner: asterisk
+    group: asterisk
+    mode: "0644"
+  loop: "{{ asterisk_musiconhold | default([]) | subelements('files', skip_missing=true) }}"
+  loop_control:
+    label: "{{ item.0.name }} - {{ item.1 | basename }}"
+  when: asterisk_musiconhold is defined
+  notify: Reload asterisk

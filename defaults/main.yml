@@ -91,3 +91,14 @@ asterisk_modules_load:
   # Bridge
   - bridge_simple.so
   - bridge_native_rtp.so
+  # Music on hold
+  - res_musiconhold.so
+
+# Music on hold
+# asterisk_musiconhold:
+#   - name: default
+#     mode: files
+#     directory: /var/lib/asterisk/moh
+#     files:
+#       - files/moh/music1.wav
+#       - files/moh/music2.wav

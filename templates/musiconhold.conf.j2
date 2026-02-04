@@ -1,0 +1,19 @@
+[general]
+
+{% for moh in asterisk_musiconhold | default([]) %}
+[{{ moh.name }}]
+mode={{ moh.mode | default('files') }}
+directory={{ moh.directory }}
+{% if moh.sort is defined %}
+sort={{ moh.sort }}
+{% endif %}
+{% if moh.random is defined %}
+random={{ moh.random }}
+{% endif %}
+
+{% endfor %}
+{% if asterisk_musiconhold is not defined %}
+[default]
+mode=files
+directory=/var/lib/asterisk/moh
+{% endif %}

@@ -119,6 +119,28 @@ asterisk_modules_noload:
   - chan_mgcp.so
 ```
 
+### Music on Hold (optional)
+
+Configure music on hold classes with custom audio files:
+
+```yaml
+asterisk_musiconhold:
+  - name: default
+    mode: files
+    directory: /var/lib/asterisk/moh
+    files:
+      - files/moh/music1.wav
+      - files/moh/music2.wav
+  - name: waiting
+    mode: files
+    directory: /var/lib/asterisk/moh-waiting
+    random: "yes"
+    files:
+      - files/moh-waiting/hold1.wav
+```
+
+Place your audio files in `files/moh/` in your playbook directory.
+
 ## Dependencies
 
 None.
