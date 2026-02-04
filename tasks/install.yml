@@ -5,3 +5,10 @@
     name: asterisk
     state: present
     update_cache: true
+
+- name: Ensure asterisk service is started and enabled
+  become: true
+  ansible.builtin.systemd:
+    name: asterisk
+    state: started
+    enabled: true
