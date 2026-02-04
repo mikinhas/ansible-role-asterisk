@@ -1,39 +1,16 @@
-- name: Configure asterisk.conf
+- name: Configure {{ item.name }}
   become: true
   ansible.builtin.template:
-    src: asterisk.conf.j2
-    dest: /etc/asterisk/asterisk.conf
+    src: "{{ item.src }}"
+    dest: "/etc/asterisk/{{ item.dest }}"
     owner: asterisk
     group: asterisk
     mode: "u=rw,g=r"
-  notify: Restart asterisk
-
-- name: Configure pjsip
-  become: true
-  ansible.builtin.template:
-    src: pjsip.conf.j2
-    dest: /etc/asterisk/pjsip.conf
-    owner: asterisk
-    group: asterisk
-    mode: "u=rw,g=r"
-  notify: Reload asterisk
-
-- name: Configure extensions
-  become: true
-  ansible.builtin.template:
-    src: extensions.conf.j2
-    dest: /etc/asterisk/extensions.conf
-    owner: asterisk
-    group: asterisk
-    mode: "u=rw,g=r"
-  notify: Reload asterisk
-
-- name: Configure voicemail
-  become: true
-  ansible.builtin.template:
-    src: voicemail.conf.j2
-    dest: /etc/asterisk/voicemail.conf
-    owner: asterisk
-    group: asterisk
-    mode: "u=rw,g=r"
-  notify: Reload asterisk
+  notify: "{{ item.handler }}"
+  loop:
+    - { name: asterisk.conf, src: asterisk.conf.j2, dest: asterisk.conf, handler: Restart asterisk }
+    - { name: pjsip, src: pjsip.conf.j2, dest: pjsip.conf, handler: Reload asterisk }
+    - { name: extensions, src: extensions.conf.j2, dest: extensions.conf, handler: Reload asterisk }
+    - { name: voicemail, src: voicemail.conf.j2, dest: voicemail.conf, handler: Reload asterisk }
+  loop_control:
+    label: "{{ item.name }}"
