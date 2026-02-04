@@ -92,6 +92,33 @@ asterisk_transport_pjsip_protocol: 'udp'
 asterisk_transport_pjsip_bind_address: '0.0.0.0'
 ```
 
+### Modules
+
+Control which Asterisk modules are loaded. Default configuration uses minimal loading for security (recommended for internet-exposed servers):
+
+```yaml
+asterisk_modules_autoload: "no"  # Only load specified modules
+asterisk_modules_load:
+  # Core
+  - res_rtp_asterisk.so
+  - res_crypto.so
+  # PJSIP
+  - res_pjsip.so
+  - res_pjsip_session.so
+  - chan_pjsip.so
+  # ... (see defaults/main.yml for full list)
+```
+
+For development or internal networks, you can use autoload with exclusions:
+
+```yaml
+asterisk_modules_autoload: "yes"
+asterisk_modules_noload:
+  - chan_sip.so
+  - chan_skinny.so
+  - chan_mgcp.so
+```
+
 ## Dependencies
 
 None.

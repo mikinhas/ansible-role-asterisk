@@ -1,0 +1,23 @@
+[modules]
+autoload={{ asterisk_modules_autoload | default('yes') }}
+
+{% if asterisk_modules_preload is defined %}
+; Preload modules
+{% for module in asterisk_modules_preload %}
+preload => {{ module }}
+{% endfor %}
+{% endif %}
+
+{% if asterisk_modules_load is defined %}
+; Explicitly load modules
+{% for module in asterisk_modules_load %}
+load => {{ module }}
+{% endfor %}
+{% endif %}
+
+{% if asterisk_modules_noload is defined %}
+; Do not load these modules
+{% for module in asterisk_modules_noload %}
+noload => {{ module }}
+{% endfor %}
+{% endif %}

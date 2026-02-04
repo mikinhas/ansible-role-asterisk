@@ -9,6 +9,7 @@
   notify: "{{ item.handler }}"
   loop:
     - { name: asterisk.conf, src: asterisk.conf.j2, dest: asterisk.conf, handler: Restart asterisk }
+    - { name: modules, src: modules.conf.j2, dest: modules.conf, handler: Restart asterisk }
     - { name: pjsip, src: pjsip.conf.j2, dest: pjsip.conf, handler: Reload asterisk }
     - { name: extensions, src: extensions.conf.j2, dest: extensions.conf, handler: Reload asterisk }
     - { name: voicemail, src: voicemail.conf.j2, dest: voicemail.conf, handler: Reload asterisk }

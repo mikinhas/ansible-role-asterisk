@@ -45,3 +45,49 @@ asterisk_voicemail:
       - userid: 10
         password: ""
         mail: exemple@exemple.com
+
+# Modules configuration (minimal for internet-exposed server)
+asterisk_modules_autoload: "no"
+asterisk_modules_load:
+  # Core
+  - res_rtp_asterisk.so
+  - res_crypto.so
+  - res_http_websocket.so
+  # PJSIP
+  - res_pjproject.so
+  - res_pjsip.so
+  - res_pjsip_authenticator_digest.so
+  - res_pjsip_endpoint_identifier_ip.so
+  - res_pjsip_endpoint_identifier_user.so
+  - res_pjsip_outbound_authenticator_digest.so
+  - res_pjsip_outbound_registration.so
+  - res_pjsip_registrar.so
+  - res_pjsip_session.so
+  - res_pjsip_sdp_rtp.so
+  - chan_pjsip.so
+  # Dialplan
+  - pbx_config.so
+  - func_callerid.so
+  - func_channel.so
+  - func_logic.so
+  - func_strings.so
+  # Applications
+  - app_dial.so
+  - app_playback.so
+  - app_voicemail.so
+  - app_directory.so
+  - app_echo.so
+  - app_verbose.so
+  # Codecs
+  - codec_ulaw.so
+  - codec_alaw.so
+  - codec_gsm.so
+  - codec_g722.so
+  # Formats
+  - format_wav.so
+  - format_wav_gsm.so
+  - format_gsm.so
+  - format_pcm.so
+  # Bridge
+  - bridge_simple.so
+  - bridge_native_rtp.so
