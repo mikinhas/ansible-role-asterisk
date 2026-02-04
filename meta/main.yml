@@ -1,13 +1,21 @@
 ---
-
 galaxy_info:
-  role_name: ansible_role_asterisk
+  role_name: asterisk
   namespace: mikinhas
   author: Michael MACHADO
-  description: Base role
-  license: "license (BSD, MIT)"
+  description: Install and configure Asterisk PBX with PJSIP, multi-trunk support, extensions and voicemail
+  license: MIT
   min_ansible_version: "2.16"
   platforms:
     - name: Ubuntu
       versions:
         - noble
+  galaxy_tags:
+    - asterisk
+    - voip
+    - pbx
+    - sip
+    - pjsip
+    - telephony
+
+dependencies: []
