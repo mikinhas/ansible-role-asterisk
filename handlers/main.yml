@@ -4,3 +4,9 @@
   ansible.builtin.systemd:
     name: asterisk
     state: restarted
+
+- name: Reload asterisk
+  become: true
+  ansible.builtin.systemd:
+    name: asterisk
+    state: reloaded

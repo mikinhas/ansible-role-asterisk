@@ -16,7 +16,7 @@
     owner: asterisk
     group: asterisk
     mode: "u=rw,g=r"
-  notify: Restart asterisk
+  notify: Reload asterisk
 
 - name: Configure extensions
   become: true
@@ -26,7 +26,7 @@
     owner: asterisk
     group: asterisk
     mode: "u=rw,g=r"
-  notify: Restart asterisk
+  notify: Reload asterisk
 
 - name: Configure voicemail
   become: true
@@ -36,4 +36,4 @@
     owner: asterisk
     group: asterisk
     mode: "u=rw,g=r"
-  notify: Restart asterisk
+  notify: Reload asterisk
