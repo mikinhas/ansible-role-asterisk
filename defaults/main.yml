@@ -1,4 +1,23 @@
 ---
+# External SIP trunks
+# asterisk_pjsip_trunks:
+#   - name: trunk-1
+#     context: from-external
+#     server: sip.provider1.com
+#     port: 5060
+#     username: "username1"
+#     password: "password1"
+#     codecs:
+#       - ulaw
+#       - alaw
+#   - name: trunk-2
+#     context: from-external
+#     server: sip.provider2.com
+#     port: 5060
+#     username: "username2"
+#     password: "password2"
+
+# Local endpoints (softphones, IP phones)
 asterisk_pjsip_sections:
   - name: 10
     context: internal

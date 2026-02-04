@@ -1,24 +1,77 @@
+; ===================
+; Transport
+; ===================
 [{{ asterisk_transport_pjsip_name | default('transport-udp') }}]
 type=transport
 protocol={{ asterisk_transport_pjsip_protocol | default('udp') }}
-bind={{ asterisk_transport_pjsip_bind_addres | default('0.0.0.0') }}
+bind={{ asterisk_transport_pjsip_bind_address | default('0.0.0.0') }}
 
+{% if asterisk_pjsip_trunks is defined %}
+{% for trunk in asterisk_pjsip_trunks %}
+; ===================
+; SIP Trunk ({{ trunk.name }})
+; ===================
+[{{ trunk.name }}]
+type=endpoint
+context={{ trunk.context | default('from-external') }}
+disallow=all
+{% for codec in trunk.codecs | default(['ulaw', 'alaw']) %}
+allow={{ codec }}
+{% endfor %}
+outbound_auth={{ trunk.name }}-auth
+aors={{ trunk.name }}
+from_user={{ trunk.username }}
+from_domain={{ trunk.server }}
+
+[{{ trunk.name }}-auth]
+type=auth
+auth_type=userpass
+username={{ trunk.username }}
+password={{ trunk.password }}
+
+[{{ trunk.name }}]
+type=aor
+contact=sip:{{ trunk.server }}:{{ trunk.port | default(5060) }}
+qualify_frequency={{ trunk.qualify_frequency | default(60) }}
+
+[{{ trunk.name }}-registration]
+type=registration
+outbound_auth={{ trunk.name }}-auth
+server_uri=sip:{{ trunk.server }}:{{ trunk.port | default(5060) }}
+client_uri=sip:{{ trunk.username }}@{{ trunk.server }}
+retry_interval=60
+expiration=3600
+
+[{{ trunk.name }}-identify]
+type=identify
+endpoint={{ trunk.name }}
+match={{ trunk.server }}
+
+{% endfor %}
+{% endif %}
+{% if asterisk_pjsip_sections is defined %}
+; ===================
+; Local endpoints
+; ===================
 {% for section in asterisk_pjsip_sections %}
 [{{ section.name }}]
 type=endpoint
 context={{ section.context }}
 disallow=all
-allow=ulaw
-auth={{ section.name }}
+{% for codec in section.codecs | default(['ulaw', 'alaw']) %}
+allow={{ codec }}
+{% endfor %}
+auth={{ section.name }}-auth
 aors={{ section.name }}
 
-[{{ section.name }}]
+[{{ section.name }}-auth]
 type=auth
 auth_type=userpass
-password={{ section.password }}
 username={{ section.username }}
+password={{ section.password }}
 
 [{{ section.name }}]
 type=aor
-max_contacts=1
-{% endfor%}
+max_contacts={{ section.max_contacts | default(1) }}
+{% endfor %}
+{% endif %}
