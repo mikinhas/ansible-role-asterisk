@@ -3,4 +3,4 @@
   hosts: all
   gather_facts: true
   roles:
-    - ansible-role-asterisk
+    - role: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}"
