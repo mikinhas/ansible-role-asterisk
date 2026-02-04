@@ -16,6 +16,7 @@ def test_asterisk_running_and_enabled(host):
 
 @pytest.mark.parametrize("config_file", [
     "/etc/asterisk/asterisk.conf",
+    "/etc/asterisk/modules.conf",
     "/etc/asterisk/pjsip.conf",
     "/etc/asterisk/extensions.conf",
     "/etc/asterisk/voicemail.conf",
@@ -43,3 +44,11 @@ def test_pjsip_endpoints_config(host):
     assert pjsip_conf.contains("type=endpoint")
     assert pjsip_conf.contains("type=auth")
     assert pjsip_conf.contains("type=aor")
+
+
+def test_modules_config(host):
+    """Test that modules.conf has minimal secure configuration."""
+    modules_conf = host.file("/etc/asterisk/modules.conf")
+    assert modules_conf.contains("autoload=no")
+    assert modules_conf.contains("load => res_pjsip.so")
+    assert modules_conf.contains("load => chan_pjsip.so")
